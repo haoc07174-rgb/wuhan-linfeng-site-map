@@ -1,0 +1,68 @@
+{
+  "communityTotal": 406,
+  "openRecordTotal": 671,
+  "excludedCommunityCount": 5,
+  "excludedOpenRecordCount": 5,
+  "districts": {
+    "东湖高新区": {
+      "communities": 32,
+      "openRecords": 77
+    },
+    "洪山区": {
+      "communities": 95,
+      "openRecords": 160
+    },
+    "经开区": {
+      "communities": 5,
+      "openRecords": 5
+    },
+    "江汉区": {
+      "communities": 12,
+      "openRecords": 14
+    },
+    "黄陂区": {
+      "communities": 10,
+      "openRecords": 12
+    },
+    "武昌区": {
+      "communities": 85,
+      "openRecords": 123
+    },
+    "汉阳区": {
+      "communities": 32,
+      "openRecords": 44
+    },
+    "硚口区": {
+      "communities": 16,
+      "openRecords": 25
+    },
+    "青山区": {
+      "communities": 28,
+      "openRecords": 89
+    },
+    "蔡甸区": {
+      "communities": 7,
+      "openRecords": 8
+    },
+    "汉南区": {
+      "communities": 1,
+      "openRecords": 1
+    },
+    "江岸区": {
+      "communities": 41,
+      "openRecords": 64
+    },
+    "新洲区": {
+      "communities": 2,
+      "openRecords": 2
+    },
+    "江夏区": {
+      "communities": 19,
+      "openRecords": 22
+    },
+    "东西湖区": {
+      "communities": 21,
+      "openRecords": 25
+    }
+  }
+}
