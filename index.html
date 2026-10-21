@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f2ea">
+  <meta name="description" content="武汉林凤装饰集团工地与小区分布地图">
+  <title>武汉林凤装饰集团工地图</title>
+  <link rel="preconnect" href="https://webapi.amap.com">
+  <link rel="preconnect" href="https://restapi.amap.com">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="app-shell">
+    <section class="map-stage" aria-label="武汉工地地图">
+      <div id="map" role="application" aria-label="可拖动缩放的武汉城市地图"></div>
+      <div class="map-topline">
+        <div class="brand-mark" aria-hidden="true">林</div>
+        <div class="map-title"><strong>武汉林凤装饰集团</strong><span>工地分布地图</span></div>
+        <button class="icon-button settings-trigger" type="button" aria-label="地图设置" title="地图设置">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.2a3.8 3.8 0 1 0 0 7.6 3.8 3.8 0 0 0 0-7.6Zm8 4.7v-1.8l-2-.5a6.3 6.3 0 0 0-.6-1.4l1-1.8-1.3-1.3-1.8 1a6.3 6.3 0 0 0-1.4-.6l-.5-2h-1.8l-.5 2a6.3 6.3 0 0 0-1.4.6l-1.8-1L7.6 7.4l1 1.8a6.3 6.3 0 0 0-.6 1.4l-2 .5v1.8l2 .5c.1.5.3 1 .6 1.4l-1 1.8 1.3 1.3 1.8-1c.4.3.9.5 1.4.6l.5 2h1.8l.5-2c.5-.1 1-.3 1.4-.6l1.8 1 1.3-1.3-1-1.8c.3-.4.5-.9.6-1.4l2-.5Z"/></svg>
+        </button>
+      </div>
+      <div class="map-float-tools" aria-label="地图工具">
+        <button id="zoom-in" class="tool-button" type="button" aria-label="放大地图">＋</button>
+        <button id="zoom-out" class="tool-button" type="button" aria-label="缩小地图">−</button>
+        <span class="tool-divider"></span>
+        <button id="home-view" class="tool-button home-button" type="button" aria-label="查看武汉全域" title="武汉全域">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.8 12 3l9 7.8v9.1h-6v-6h-6v6H3z"/></svg>
+        </button>
+      </div>
+      <div class="map-caption"><span class="live-dot"></span><span id="map-status">正在连接高德地图</span><span class="caption-separator">·</span><span>武汉市域</span></div>
+      <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    </section>
+
+    <aside class="side-panel">
+      <header class="panel-header">
+        <div class="eyebrow"><span class="eyebrow-line"></span>PROJECT MAP <span class="eyebrow-dot">●</span> 武汉</div>
+        <h1>每一处用心，<br><em>都有迹可循。</em></h1>
+        <p class="intro">按行政区浏览林凤装饰在武汉的在施工地小区。</p>
+        <label class="search-box" for="search-input">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8"/><path d="m16 16 4.3 4.3"/></svg>
+          <input id="search-input" type="search" placeholder="搜索小区名称" autocomplete="off">
+          <kbd>⌘ K</kbd>
+        </label>
+        <div id="search-results" class="search-results" hidden></div>
+      </header>
+
+      <div class="panel-scroll">
+        <div class="section-heading">
+          <div><span class="section-kicker">AREAS</span><h2>行政区域</h2></div>
+          <button id="all-areas" class="text-action" type="button">查看全部</button>
+        </div>
+        <div id="area-list" class="area-list" aria-label="行政区域筛选"></div>
+        <div class="data-card">
+          <div class="data-card-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12Z"/><circle cx="12" cy="9" r="2.2"/></svg></div>
+          <div class="data-copy"><strong id="visible-count">—</strong><span id="visible-label">个小区点位</span></div>
+          <div class="data-side"><span class="data-label">视图范围</span><strong id="selected-area-label">全武汉</strong></div>
+        </div>
+        <div id="geo-progress" class="progress-wrap" hidden>
+          <div class="progress-label"><span id="progress-text">正在查询小区位置</span><span id="progress-value">0%</span></div>
+          <div class="progress-track"><span id="progress-bar"></span></div>
+        </div>
+        <div class="legend"><span class="legend-dot"></span>小区位置<span class="legend-bubble">小区名称气泡</span></div>
+        <p class="source-note">点位来自提供的小区清单；坐标由高德地图地址解析生成。</p>
+      </div>
+      <footer class="panel-footer"><span class="footer-brand">LINFENG <b>林凤装饰</b></span><span>用心装好每一个家</span></footer>
+    </aside>
+  </main>
+
+  <dialog id="setup-dialog" class="setup-dialog">
+    <form id="setup-form" method="dialog">
+      <div class="dialog-mark">林</div>
+      <p class="dialog-eyebrow">地图连接设置</p>
+      <h2>连接高德地图</h2>
+      <p class="dialog-copy">输入高德开放平台的 Web 端 Key 与安全密钥后，即可加载地图、武汉行政区边界和小区坐标。</p>
+      <label class="field-label" for="amap-key">Web 端 Key</label>
+      <input id="amap-key" class="credential-input" autocomplete="off" spellcheck="false" placeholder="请输入高德 Web 端 Key" required>
+      <label class="field-label" for="amap-secret">JS API 安全密钥</label>
+      <input id="amap-secret" class="credential-input" autocomplete="off" spellcheck="false" placeholder="请输入 JS API 安全密钥" required>
+      <label class="remember-row"><input id="remember-key" type="checkbox" checked><span>在此浏览器保存设置</span></label>
+      <button class="primary-button" type="submit">连接并打开地图 <span>→</span></button>
+      <button class="secondary-button" id="cancel-setup" type="button">稍后设置</button>
+      <p class="privacy-note">设置仅保存在当前浏览器中，不写入网站源码。</p>
+    </form>
+  </dialog>
+  <script src="app.js" defer></script>
+</body>
+</html>
+
